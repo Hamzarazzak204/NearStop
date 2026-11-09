@@ -1,0 +1,3 @@
+# Extra package for the Windows desktop app (desktop_app.py).
+# Not needed on the Raspberry Pi.
+pywebview>=5

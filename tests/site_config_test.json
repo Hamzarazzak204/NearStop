@@ -1,0 +1,57 @@
+{
+  "_comment": "NearStop site settings. Editable in Setup > Machines & site (restart not needed). Device IDs must match the firmware IDs.",
+  "_coords": "x/y in metres, (0,0) = bottom-left. facing_deg: 0 = east/right, 90 = north/up. warning_cm / danger_cm: ultrasonic distance thresholds (danger < warning).",
+  "site_name": "NearStop",
+  "site": {
+    "width_m": 10.0,
+    "height_m": 8.0
+  },
+  "machines": {
+    "GW": {
+      "name": "Robot Arm",
+      "safe_action": "stop",
+      "presence_stop": false,
+      "x": 1.0,
+      "y": 1.0,
+      "facing_deg": 45,
+      "warning_cm": 150,
+      "danger_cm": 50
+    },
+    "MA": {
+      "name": "Conveyor",
+      "safe_action": "stop",
+      "presence_stop": false,
+      "x": 9.0,
+      "y": 1.0,
+      "facing_deg": 135,
+      "warning_cm": 150,
+      "danger_cm": 50
+    },
+    "MB": {
+      "name": "Hoist",
+      "safe_action": "hold",
+      "presence_stop": false,
+      "fall_stop_zone": "danger",
+      "impact_hold": true,
+      "x": 5.0,
+      "y": 7.0,
+      "facing_deg": 270,
+      "warning_cm": 150,
+      "danger_cm": 50
+    }
+  },
+  "workers": {
+    "W1": {
+      "name": "Sam",
+      "tag": "Vest Tag"
+    }
+  },
+  "sensor_range_cm": 300,
+  "adaptive_zones": {
+    "strain_growth": 0.5,
+    "max_scale": 1.5,
+    "min_change_cm": 5
+  },
+  "checkin_timeout_s": 10.0,
+  "machine_command_port": null
+}

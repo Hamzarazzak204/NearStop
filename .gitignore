@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+backend/settings.json
+logs/
+
+# Real Wi-Fi passwords live here (copy the matching config.example.h)
+firmware/machine_node_usb/config.h
+firmware/motor_node/config.h
+firmware/worker_strap/config.h
+firmware/hoist_node/config.h
+
+# Board flash backups contain Wi-Fi passwords
+firmware/backups/
+*.bin

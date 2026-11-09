@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NearStop</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="site.css">
+</head>
+<body>
+  <!-- =====================================================================
+       SITE VIEW: the NearStop product dashboard (site.js / site.css)
+       ===================================================================== -->
+  <div id="site-view">
+    <!-- Icon sprite (stroke icons, inherit currentColor) -->
+    <svg class="ns-sprite" aria-hidden="true">
+      <symbol id="i-robot" viewBox="0 0 24 24"><path d="M3 21h9M5 21v-2.5h5V21M7.5 18.5 11 11l6.5-3.5"/><circle cx="11" cy="11" r="1.6"/><circle cx="7.5" cy="18.5" r="1.4"/><path d="M17.5 7.5 20 5M17.5 7.5 21 9"/></symbol>
+      <symbol id="i-conveyor" viewBox="0 0 24 24"><rect x="2.5" y="14" width="19" height="5" rx="2.5"/><circle cx="6" cy="16.5" r="1"/><circle cx="12" cy="16.5" r="1"/><circle cx="18" cy="16.5" r="1"/><rect x="8" y="7" width="7" height="6.5" rx="1"/></symbol>
+      <symbol id="i-hoist" viewBox="0 0 24 24"><path d="M3 4h18M12 4v7"/><path d="M12 11a3 3 0 1 1-3 3"/><path d="M6 4 4 7M18 4l2 3"/></symbol>
+      <symbol id="i-machine" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></symbol>
+      <symbol id="i-worker" viewBox="0 0 24 24"><path d="M7 10.5a5 5 0 0 1 10 0"/><path d="M5.5 10.5h13M12 5.5V8"/><circle cx="12" cy="13.5" r="2.6"/><path d="M6 21a6 6 0 0 1 12 0"/></symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 9a6 6 0 0 0-12 0c0 6-2.5 7.5-2.5 7.5h17S18 15 18 9"/><path d="M10.3 20a2 2 0 0 0 3.4 0"/></symbol>
+      <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
+      <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2.5"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
+      <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3 2 21h20L12 3z"/><path d="M12 10v5M12 18v.01"/></symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/><path d="M12 8.5v4.5M12 16v.01"/></symbol>
+      <symbol id="i-heat" viewBox="0 0 24 24"><path d="M14 14.8V5a2 2 0 0 0-4 0v9.8a4 4 0 1 0 4 0z"/></symbol>
+      <symbol id="i-walk" viewBox="0 0 24 24"><circle cx="13" cy="4.5" r="1.8"/><path d="M9 21l2.5-6 3 2.5V22M8 11l3-3.5 3 1.5 2 3"/></symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></symbol>
+      <symbol id="i-exit" viewBox="0 0 24 24"><path d="M5 21V4h8v17"/><path d="M13 12h7M17 9l3 3-3 3"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+      <symbol id="i-gauge" viewBox="0 0 24 24"><path d="M4.5 17a8.5 8.5 0 1 1 15 0"/><path d="M12 13l4-4"/><circle cx="12" cy="13" r="1.3"/></symbol>
+      <symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 21a6 6 0 0 0 6-6c0-4-3-6-3.5-9.5C12 7 10.5 9 10.5 11 9 10 8.5 8.5 8.5 7.5 7 9.5 6 12 6 15a6 6 0 0 0 6 6z"/></symbol>
+    </svg>
+
+    <div class="ns-sticky">
+      <header class="ns-top">
+        <div class="ns-top-left">
+          <a class="ns-brand" href="#site" aria-label="NearStop home">NearStop</a>
+          <nav class="ns-nav" aria-label="Pages">
+            <a id="ns-nav-floor" href="#site" class="active">Site floor</a>
+            <a id="ns-nav-monitor" href="#monitor">Monitoring<span id="ns-nav-alert" class="ns-dot" hidden></span></a>
+          </nav>
+        </div>
+
+        <div id="ns-status" class="ns-status lvl-offline" aria-live="polite">
+          <span class="ns-dot"></span><span id="ns-status-text">Connecting…</span>
+        </div>
+
+        <div class="ns-top-right">
+          <span id="ns-sim" class="ns-chip" hidden title="Data comes from the test simulator">Simulation</span>
+          <span id="ns-hub" class="ns-chip lvl-offline" title="Whether NearStop is receiving data from the machines and vest">
+            <span class="ns-dot"></span><span id="ns-hub-text">Hub</span>
+          </span>
+          <button id="ns-sound" class="ns-icon-btn" type="button" title="Alarm sound on" aria-label="Alarm sound on">
+            <svg class="ns-ico"><use href="#i-bell"/></svg><span class="ns-mute-line"></span>
+          </button>
+          <a id="ns-gear" class="ns-icon-btn" href="#setup/tools" title="Setup" aria-label="Setup">
+            <svg class="ns-ico"><use href="#i-gear"/></svg>
+          </a>
+          <button id="ns-evacuate" class="ns-evac" type="button">
+            <svg class="ns-ico"><use href="#i-exit"/></svg><span id="ns-evac-label">Evacuate</span>
+          </button>
+        </div>
+      </header>
+
+      <div id="ns-banner" class="ns-banner" role="alert" hidden>
+        <svg class="ns-ico ns-banner-icon" aria-hidden="true"><use href="#i-alert"/></svg>
+        <div class="ns-banner-body">
+          <strong id="ns-banner-title"></strong>
+          <span id="ns-banner-text"></span>
+        </div>
+        <div id="ns-banner-actions" class="ns-banner-actions"></div>
+      </div>
+
+      <div id="ns-reconnect" class="ns-reconnect" hidden>
+        <span class="ns-spinner" aria-hidden="true"></span>
+        <span id="ns-reconnect-text">Reconnecting…</span>
+      </div>
+    </div><!-- /ns-sticky -->
+
+    <main id="ns-main" class="ns-layout">
+      <section class="ns-stage-col">
+        <div class="ns-hero">
+          <div id="ns-eyebrow" class="ns-eyebrow">Live site</div>
+          <h1 class="ns-hero-title"><span id="ns-hero-main">Site floor</span> <span id="ns-hero-sub" class="ns-hero-sub"></span></h1>
+        </div>
+        <div id="ns-stage" class="ns-stage" aria-label="Machines on the site">
+          <div class="ns-floor" aria-hidden="true"></div>
+          <div id="ns-tiles" class="ns-tiles"></div>
+        </div>
+        <div id="ns-onsite" class="ns-onsite ns-glass" hidden>
+          <span class="ns-onsite-label">On site</span>
+          <div id="ns-onsite-list" class="ns-onsite-list"></div>
+        </div>
+      </section>
+
+      <aside class="ns-side">
+        <section class="ns-glass ns-panel">
+          <div class="ns-panel-head">
+            <span class="ns-panel-icon"><svg class="ns-ico"><use href="#i-worker"/></svg></span>
+            <h2>Worker</h2>
+          </div>
+          <div id="ns-workers" class="ns-cards"></div>
+        </section>
+        <section class="ns-glass ns-panel">
+          <div class="ns-panel-head">
+            <span class="ns-panel-icon"><svg class="ns-ico"><use href="#i-machine"/></svg></span>
+            <h2>Machines</h2>
+          </div>
+          <div id="ns-machines" class="ns-cards"></div>
+        </section>
+      </aside>
+
+      <section class="ns-glass ns-panel ns-activity">
+        <div class="ns-panel-head">
+          <span class="ns-panel-icon"><svg class="ns-ico"><use href="#i-clock"/></svg></span>
+          <h2>Activity</h2>
+        </div>
+        <ol id="ns-timeline" class="ns-timeline"></ol>
+      </section>
+    </main>
+
+    <!-- Monitoring: worker environment (strap BMP180 + MQ-2) -->
+    <main id="ns-monitor" class="ns-monitor" hidden>
+      <div class="ns-hero">
+        <div class="ns-eyebrow">Worker environment · live</div>
+        <h1 class="ns-hero-title">Monitoring <span class="ns-hero-sub">temperature, air pressure &amp; combustible gas at each worker</span></h1>
+      </div>
+      <div id="ns-env" class="ns-env"></div>
+      <p class="ns-env-note">Readings come from the sensors on each worker's strap: BMP180 (air temperature
+        and pressure) and MQ-2 (combustible gas such as LPG, propane, methane and smoke). After a 2-minute warm-up
+        the strap learns clean air, then shows the gas sensor's resistance as a % of clean air: gas makes it drop
+        (yellow at 60 %, red at 35 %). It is relative to clean air, not ppm or % of the explosive limit. Heat levels
+        use the air temperature. This is an early warning, not a certified gas detector.</p>
+    </main>
+
+    <!-- Evacuation confirm -->
+    <div id="ns-modal-evac" class="ns-modal" role="dialog" aria-modal="true" aria-labelledby="ns-evac-title" hidden>
+      <div class="ns-modal-box ns-glass lvl-danger">
+        <h2 id="ns-evac-title">Evacuate the site?</h2>
+        <p id="ns-evac-text">All machines lock. They stay locked until you approve each restart.</p>
+        <div class="ns-modal-actions">
+          <button class="ns-btn" type="button" data-close>Cancel</button>
+          <button id="ns-evac-confirm" class="ns-btn ns-btn-danger" type="button">Evacuate</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Check-in countdown -->
+    <div id="ns-modal-checkin" class="ns-modal" role="alertdialog" aria-modal="true" aria-labelledby="ns-ci-title" hidden>
+      <div id="ns-ci-box" class="ns-modal-box ns-glass lvl-warn" tabindex="-1">
+        <div class="ns-ci">
+          <div class="ns-ring" aria-hidden="true">
+            <svg viewBox="0 0 120 120"><circle class="ns-ring-track" cx="60" cy="60" r="52"/><circle id="ns-ci-arc" class="ns-ring-arc" cx="60" cy="60" r="52"/></svg>
+            <span id="ns-ci-count">10</span>
+          </div>
+          <div>
+            <div id="ns-ci-eyebrow" class="ns-eyebrow">Check-in</div>
+            <h2 id="ns-ci-title">Waiting for Sam…</h2>
+            <p id="ns-ci-text" class="ns-ci-text"></p>
+          </div>
+        </div>
+        <p id="ns-ci-hint" class="ns-muted"></p>
+        <div class="ns-modal-actions">
+          <button id="ns-ci-hide" class="ns-btn ns-btn-quiet" type="button">Hide</button>
+          <button id="ns-ci-escalate" class="ns-btn ns-btn-danger" type="button">SOS now</button>
+          <button id="ns-ci-ok" class="ns-btn ns-btn-primary" type="button">Sam is OK</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="ns-toast" class="ns-toast" role="status" hidden></div>
+  </div>
+
+<!-- =====================================================================
+       SETUP VIEW: technical pages (app.js / style.css)
+       ===================================================================== -->
+  <div id="setup-view" hidden>
+  <header>
+    <h1><a class="back-link" href="#site" title="Back to the site view">&larr; Site</a> Setup <span class="subtitle">NearStop · sensors, layout &amp; tools</span></h1>
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-tab="live" role="tab">Sensors</button>
+      <button class="tab" data-tab="setup" role="tab">Machines &amp; site</button>
+      <button class="tab" data-tab="tools" role="tab">Tools &amp; connection</button>
+    </nav>
+    <div class="header-status">
+      <span id="sim-badge" class="pill pill-warn" hidden>SIMULATED DATA</span>
+      <span id="online-pill" class="pill">Devices: –</span>
+      <span id="udp-pill" class="pill">UDP: …</span>
+      <span id="ws-pill" class="pill">Connecting…</span>
+    </div>
+  </header>
+
+  <!-- ================= SENSORS (raw data) ================= -->
+  <main id="tab-live" class="tab-page">
+    <section class="card wide-card">
+      <h2>Machine sensors – raw data</h2>
+      <p class="hint">The latest message from each machine's HC-SR04 sensor exactly as received,
+        and the last command NearStop sent back. Sensor = Error when no message for 2 s.</p>
+      <div class="table-wrap">
+        <table class="raw-table" id="raw-machines">
+          <thead><tr>
+            <th>ID</th><th>Machine</th><th>Sensor</th><th>dist_cm</th><th>Zone</th><th>State</th>
+            <th>Thresholds on machine</th><th>NearStop thresholds</th><th>Last message</th><th>Last command sent</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Vest</h2>
+      <dl class="kv big" id="raw-vest"></dl>
+    </section>
+
+    <section class="card">
+      <h2>Message formats</h2>
+      <p class="hint">Machine → NearStop (UDP port shown under Tools; several times a second):</p>
+      <pre class="code">{"type":"machine","id":"MA","state":"slowed",
+ "dist_cm":87,"zone":"warning","sensor":"ok"}</pre>
+      <p class="hint"><code>dist_cm</code> = -1 when nothing is in range. Optional:
+        <code>"warning_cm"</code>/<code>"danger_cm"</code> (echo of the active thresholds).
+        <code>sensor</code>: <code>ok</code>, <code>no_reading</code> or <code>error</code>.</p>
+      <p class="hint">NearStop → machine (sent back to the IP:port the reports come from):</p>
+      <pre class="code">{"type":"set_zones","id":"MA","warning_cm":180,"danger_cm":60}
+{"type":"command","id":"MA","cmd":"stop"}   // stop | hold | lock | resume | slow</pre>
+    </section>
+  </main>
+
+  <!-- ================= MACHINES & SITE ================= -->
+  <main id="tab-setup" class="tab-page" hidden>
+    <section class="card wide-card">
+      <h2>Machines &amp; site</h2>
+      <div class="form-row">
+        <label>Site width (m) <input id="site-w" type="number" min="1" max="500" step="0.5"></label>
+        <label>Site height (m) <input id="site-h" type="number" min="1" max="500" step="0.5"></label>
+      </div>
+      <div class="table-wrap">
+        <table class="machine-table">
+          <thead><tr>
+            <th>ID</th><th>Machine</th><th>X (m)</th><th>Y (m)</th><th>Sensor facing (°)</th>
+            <th>Warning (cm)</th><th>Danger (cm)</th>
+          </tr></thead>
+          <tbody id="machine-rows"></tbody>
+        </table>
+      </div>
+      <p class="hint">(0, 0) is the bottom-left corner of the site. <b>Facing</b> is the direction the
+        ultrasonic sensor points: 0° = right / east, 90° = up / north, 180° = left / west,
+        270° = down / south. Defaults: warning 150 cm, danger 50 cm (danger must be smaller).
+        These are the <b>base</b> distances: NearStop raises them automatically when a worker
+        is under strain and sends the new values to the machine.</p>
+      <div class="button-row">
+        <button id="layout-save" class="primary" type="button">Save to site_config.json</button>
+        <button id="layout-undo" type="button">Undo changes</button>
+        <span id="layout-msg" class="msg"></span>
+      </div>
+    </section>
+
+    <section class="card wide-card">
+      <h2>Preview</h2>
+      <p class="hint">Shows your edits before saving: rings = warning / danger distances, cone = sensor direction (~20°).</p>
+      <div id="layout-wrap" class="preview-wrap"><canvas id="layout-preview"></canvas></div>
+    </section>
+  </main>
+
+  <!-- ================= TOOLS ================= -->
+  <main id="tab-tools" class="tab-page" hidden>
+    <section class="card">
+      <h2>Test simulator</h2>
+      <p class="hint">Pretends to be the three machines and Sam's vest by sending the same UDP
+        messages the real boards send, and obeys NearStop's commands like real machines.
+        For testing only. Turn it <b>off</b> before connecting real hardware, or the fake and
+        real devices will mix.</p>
+      <div class="sim-status">
+        <span id="sim-state" class="pill">Stopped</span>
+        <span id="sim-detail" class="muted"></span>
+      </div>
+      <div class="form-row">
+        <label>Scenario
+          <select id="sim-scenario">
+            <option value="demo">NearStop demo (approach → fall → stop → restart)</option>
+            <option value="loop">Visit each machine (sensor test)</option>
+            <option value="gas">Gas leak + heat (Monitoring tab test)</option>
+          </select>
+        </label>
+        <label>Distance jitter (cm) <input id="sim-noise" type="number" min="0" max="30" step="1" value="2"></label>
+      </div>
+      <div class="check-row">
+        <span class="muted">Go silent 10 s every 30 s:</span>
+        <label class="check"><input type="checkbox" class="sim-flaky" value="MA"> MA</label>
+        <label class="check"><input type="checkbox" class="sim-flaky" value="MB"> MB</label>
+        <label class="check"><input type="checkbox" class="sim-flaky" value="W1"> W1</label>
+      </div>
+      <div class="check-row">
+        <label class="check"><input type="checkbox" id="sim-junk"> Also send malformed packets (tests error handling)</label>
+      </div>
+      <div class="button-row">
+        <button id="sim-start" class="primary">Start simulator</button>
+        <button id="sim-stop">Stop simulator</button>
+        <span id="sim-msg" class="msg"></span>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Connection</h2>
+      <dl class="kv big" id="conn-info"></dl>
+      <p class="hint">Machines and the vest connect to NearStop over Wi-Fi: each sends UDP
+        messages to this computer's IP on the UDP port above. Commands go back to the IP:port
+        each machine's messages come from, so machine firmware must send from a fixed port
+        (<code>udp.begin(port)</code>) and listen on it.</p>
+
+      <h2 style="margin-top:16px">Discover devices</h2>
+      <p class="hint">Every board heard on the network, including IDs that are not in
+        <code>backend/site_config.json</code>.</p>
+      <div class="button-row"><button id="discover-btn" type="button">Discover</button>
+        <span id="discover-msg" class="msg"></span></div>
+      <div class="table-wrap"><table class="disc-table" id="discover-table" hidden>
+        <thead><tr><th>ID</th><th>Name</th><th>Role</th><th>Status</th><th>IP</th><th>MAC</th><th>Last seen</th></tr></thead>
+        <tbody></tbody></table></div>
+
+      <h2 style="margin-top:16px">USB serial monitor</h2>
+      <p class="hint">Diagnostics only: shows a plugged-in board's Serial Monitor output
+        in the Log below. Close the Arduino IDE Serial Monitor first. Opening the
+        port does not reset the board.</p>
+      <div class="form-row">
+        <label>Serial port <select id="serial-port"></select></label>
+        <label>Baud <select id="serial-baud"><option>115200</option><option>9600</option></select></label>
+      </div>
+      <div class="button-row">
+        <button id="serial-refresh" type="button">Refresh ports</button>
+        <button id="serial-connect" class="primary" type="button">Connect</button>
+        <button id="serial-disconnect" type="button">Disconnect</button>
+        <span id="serial-msg" class="msg"></span>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Project checklist</h2>
+      <ul id="checklist" class="checklist"></ul>
+      <p class="hint">Ticks update automatically from live data. Steps marked
+        "real" only count real hardware, not the simulator.</p>
+    </section>
+
+    <section class="card">
+      <h2>Network</h2>
+      <dl id="network-info" class="kv big"></dl>
+    </section>
+
+    <section class="card log-card">
+      <div class="card-head">
+        <h2>Log</h2>
+        <div class="button-row">
+          <label class="check"><input type="checkbox" id="log-follow" checked> Auto-scroll</label>
+          <button id="log-clear">Clear view</button>
+        </div>
+      </div>
+      <pre id="log"></pre>
+    </section>
+  </main>
+
+  </div><!-- /setup-view -->
+
+  <script src="app.js"></script>
+  <script src="plan.js"></script>
+  <script src="site.js"></script>
+  <script src="monitor.js"></script>
+</body>
+</html>

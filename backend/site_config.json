@@ -1,0 +1,60 @@
+{
+  "_comment": "NearStop site settings. Editable in Setup > Machines & site (restart not needed). Device IDs must match the firmware IDs.",
+  "_coords": "x/y in metres, (0,0) = bottom-left. facing_deg: 0 = east/right, 90 = north/up. warning_cm / danger_cm: ultrasonic distance thresholds (danger < warning).",
+  "site_name": "NearStop",
+  "site": {
+    "width_m": 10.0,
+    "height_m": 8.0
+  },
+  "machines": {
+    "MA": {
+      "name": "Conveyor",
+      "safe_action": "stop",
+      "x": 3.0,
+      "y": 4.0,
+      "facing_deg": 90.0,
+      "warning_cm": 150,
+      "danger_cm": 50,
+      "presence_stop": false,
+      "fall_stop_zone": "warning",
+      "impact_hold": false,
+      "near_rssi_dbm": -94
+    },
+    "MB": {
+      "name": "Hoist",
+      "safe_action": "hold",
+      "x": 7.0,
+      "y": 4.0,
+      "facing_deg": 90.0,
+      "warning_cm": 150,
+      "danger_cm": 50,
+      "presence_stop": false,
+      "fall_stop_zone": "danger",
+      "impact_hold": true,
+      "near_rssi_dbm": -94
+    }
+  },
+  "workers": {
+    "W1": {
+      "name": "Sam",
+      "tag": "Vest Tag"
+    }
+  },
+  "sensor_range_cm": 300,
+  "adaptive_zones": {
+    "strain_growth": 0.5,
+    "max_scale": 1.5,
+    "min_change_cm": 5.0
+  },
+  "checkin_timeout_s": 10.0,
+  "environment": {
+    "heat_warn_c": 30.0,
+    "heat_danger_c": 35.0,
+    "gas_warn_mv": 1500,
+    "gas_danger_mv": 2500,
+    "stale_s": 10.0,
+    "gas_yellow_ratio": 0.6,
+    "gas_red_ratio": 0.35
+  },
+  "machine_command_port": null
+}
